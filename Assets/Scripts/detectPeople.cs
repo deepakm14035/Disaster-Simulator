@@ -26,7 +26,7 @@ public class detectPeople : MonoBehaviour {
 					temp.tag="detected";
 					peopleDetected[noOfPeople]=temp.transform.gameObject;
 					noOfPeople++;
-					//Debug.Log("found person-"+temp.transform.name);
+					Debug.Log("found person-"+temp.transform.name);
 					markObjectsOnScreen.updatePeople();
 					statistics.undetected_count--;
 					statistics.detected_count++;
@@ -51,10 +51,11 @@ public class detectPeople : MonoBehaviour {
 						temp.tag = "detected";
 						peopleDetected [noOfPeople] = temp.transform.gameObject;
 						noOfPeople++;
-						//Debug.Log("found person-"+temp.transform.name);
+						Debug.Log("found person-"+temp.transform.name);
 						statistics.detected_count++;
 						statistics.undetected_count--;
 						markObjectsOnScreen.updatePeople ();
+						statistics.updateDisplay ();
 						if (GetComponent<myWander> ()) {
 							//Debug.Log ("going towards person");
 							GetComponent<myWander> ().goTo (people [i].transform.position);

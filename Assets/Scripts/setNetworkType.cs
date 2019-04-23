@@ -7,7 +7,7 @@ public class setNetworkType : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		networktype = GameObject.Find ("mainmenu");
-		if (networktype != null && !networktype.GetComponent<mainmenucontroller> ().isAuto) {
+		if (networktype != null && networktype.GetComponent<mainmenucontroller> ().mode==1) {
 			client2.port = networktype.GetComponent<mainmenucontroller> ().port;
 			string ip = networktype.GetComponent<mainmenucontroller> ().ipaddress;
 			client2.host = ip;
@@ -22,10 +22,13 @@ public class setNetworkType : MonoBehaviour {
 				gameObject.GetComponent<server2> ().enabled = false;
 			}
 		} else {
-			client2.port=3456;
-			client2.host="192.168.55.245";
-			server2.port=client2.port;
-			server2.addr=new byte[]{192,168,55,245};
+			GetComponent<client2> ().enabled = false;
+			GetComponent<server2> ().enabled = false;
+
+			//client2.port=3456;
+			//client2.host="192.168.55.245";
+			//server2.port=client2.port;
+			//server2.addr=new byte[]{192,168,55,245};
 		}
 	}
 

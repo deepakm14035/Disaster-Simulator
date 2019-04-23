@@ -79,7 +79,15 @@ public class obstacle2 : MonoBehaviour {
 				}
 			}
 
-
+			GameObject[] people=GameObject.FindGameObjectsWithTag("detected");
+			foreach(GameObject person in people){
+				if(Vector3.Distance(person.transform.position,transform.position)<=10f){
+					person.tag="savePerson";
+					statistics.pickedup_count++;
+					statistics.updateDisplay ();
+					break;
+				}
+			}
 
 			if (Vector3.Distance (transform.position,destination) <= 10.0f) {
 				GameObject[] safes=GameObject.FindGameObjectsWithTag("safehouse");
@@ -90,6 +98,8 @@ public class obstacle2 : MonoBehaviour {
 							if(Vector3.Distance(person.transform.position,transform.position)<=10f){
 								person.tag="finished";
 								person.transform.parent=null;
+								statistics.saved_count++;
+								statistics.updateDisplay ();
 							}
 						}
 
@@ -160,6 +170,8 @@ public class obstacle2 : MonoBehaviour {
 							if(Vector3.Distance(persons[i].transform.position,transform.position)<=10f){
 								persons[i].transform.position=(person.transform.position+transform.up*10)+new Vector3(Random.value*5f,0f,Random.value*5f);
 								persons[i].tag="finished";
+								statistics.saved_count++;
+								statistics.updateDisplay ();
 							}
 						}
 						GameObject[] people = GameObject.FindGameObjectsWithTag ("savePerson");

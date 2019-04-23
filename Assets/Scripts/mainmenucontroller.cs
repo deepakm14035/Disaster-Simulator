@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class mainmenucontroller : MonoBehaviour {
-	public Toggle client, server, self,auto;
+	public Toggle client, server, self,auto,autoWithoutPython;
 	public int selection=0;
 	public int port;
 	public string ipaddress;
 	public InputField ip,portno,peopleInput,boatInput, botsInput;
 	public int people, boats, bots;
-	public bool isAuto=false;
+	public int mode=0;
 	public void buttonpressed(){
 		Debug.Log ("button pressed");
 		if (client.isOn)
@@ -20,10 +20,16 @@ public class mainmenucontroller : MonoBehaviour {
 		people = int.Parse (peopleInput.text);
 		boats = int.Parse (boatInput.text);
 		bots = int.Parse (botsInput.text);
-		isAuto=auto.isOn;
-		if(!isAuto)
+		if (auto.isOn)
+			mode = 0;
+		else if (self.isOn)
+			mode = 1;
+		else if (autoWithoutPython.isOn)
+			mode = 2;
+		Debug.Log ("button pressed -"+mode);
+		//if(!isAuto)
 			DontDestroyOnLoad (transform.gameObject);
-		SceneManager.LoadSceneAsync ("scene_t1");
+		SceneManager.LoadSceneAsync ("Final");
 
 	}
 
