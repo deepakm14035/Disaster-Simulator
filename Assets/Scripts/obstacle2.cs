@@ -34,6 +34,15 @@ public class obstacle2 : MonoBehaviour {
 				break;
 			}
 		}
+		GameObject[] safehouses = GameObject.FindGameObjectsWithTag ("safehouse");
+		double minDist = 9999f;
+		for (int i=0; i<safehouses.Length; i++) {
+			double distance=Vector3.Distance(transform.position,safehouses[i].transform.position);
+			if(distance<minDist){
+				minDist = distance;
+				safehouse = safehouses [i];
+			}
+		}
 	}
 
 	void OnMouseDown(){
@@ -47,6 +56,17 @@ public class obstacle2 : MonoBehaviour {
 		//Debug.Log (displayPos);
 		GUI.Box (new Rect(displayPos.x-100f,displayPos.z-50f,displayPos.x,displayPos.z),gameObject.name);
 
+	}
+
+	public void uploadPerson(){
+		gameObject.tag = "boat";
+		person.tag = "Finish";
+		person.GetComponent<moveObjectInWater2> ().toFollow = gameObject;
+		person.GetComponent<moveObjectInWater2> ().boatmoveflag = 1;
+		//statistics.detected_count--;
+		statistics.pickedup_count++;
+		statistics.updateDisplay ();
+		Debug.Log (gameObject.name+"  --  "+ person.name);
 	}
 
 	public void setDestination(Vector3 destin){
@@ -126,12 +146,12 @@ public class obstacle2 : MonoBehaviour {
 				person=null;
 			}
 			if(targetSet==0||person==null){
-				GameObject[] people = GameObject.FindGameObjectsWithTag ("savePerson");
+				GameObject[] people = GameObject.FindGameObjectsWithTag ("detected");
 				double minweight=99999;
 				person=null;
 				for (int i=0; i<people.Length; i++) {
 					double weight=Vector3.Distance(safehouse.transform.position,people[i].transform.position);
-					if(weight<minweight && weight<800f){
+					if(weight<minweight && weight<600f){
 						person=people[i];
 						minweight=weight;
 					}
@@ -139,6 +159,7 @@ public class obstacle2 : MonoBehaviour {
 				if(person!=null){
 					targetSet=1;
 					Debug.Log("fouund one");
+					person.tag = "savePerson";
 					agent.SetDestination(person.transform.position);
 
 				}
@@ -161,13 +182,13 @@ public class obstacle2 : MonoBehaviour {
 			else if(targetSet==1&& (person.tag.Equals("savePerson") || person.tag.Equals("safehouse"))){
 
 				destination2=person.transform.position;
-				if (Vector3.Distance (transform.position, person.transform.position) <= 10.0f) {
+				if (Vector3.Distance (transform.position, person.transform.position) <= 15.0f) {
 					targetSet=0;
 					if(person.tag.Equals("safehouse")){
 						targetSet=2;
 						GameObject[] persons=GameObject.FindGameObjectsWithTag("Finish");
 						for(int i=0;i<persons.Length;i++){
-							if(Vector3.Distance(persons[i].transform.position,transform.position)<=10f){
+							if(Vector3.Distance(persons[i].transform.position,transform.position)<=15f){
 								persons[i].transform.position=(person.transform.position+transform.up*10)+new Vector3(Random.value*5f,0f,Random.value*5f);
 								persons[i].tag="finished";
 								statistics.saved_count++;
@@ -175,16 +196,17 @@ public class obstacle2 : MonoBehaviour {
 							}
 						}
 						GameObject[] people = GameObject.FindGameObjectsWithTag ("savePerson");
-						if(people.Length<=0){
+						//if(people.Length<=0){
 							targetSet=0;
 							person=null;
-						}
+						//}
 						UIControl.passengers[index]=0;
 						UIControl.noOfPassengers [index].text="boat "+index+": "+UIControl.passengers[index];
 						UIControl.noOfPassengers[index].color=Color.white;
 					}
 					else{
-						person.tag="Finish";
+						uploadPerson ();
+						person.GetComponent<moveObjectInWater2> ().getOntheBoat (gameObject);
 					}
 
 				} else {

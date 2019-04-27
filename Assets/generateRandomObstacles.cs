@@ -32,7 +32,7 @@ namespace Exodrifter.UnityPython.Examples
 					NavMesh.SamplePosition (temp,out hit,1000f,1);
 					GameObject newBoat=Instantiate (boatPrefab,hit.position,Quaternion.identity);
 					newBoat.name = "boat" + i;
-					if (t.GetComponent<mainmenucontroller> ().mode==1) {
+					if (t.GetComponent<mainmenucontroller> ().mode==1||t.GetComponent<mainmenucontroller> ().mode==2) {
 						newBoat.GetComponent<obstacle2> ().enabled = true;
 						newBoat.GetComponent<obstacle2> ().sea=seaLevel;
 							newBoat.GetComponent<obstacle2> ().topView=boats[0].GetComponent<obstacle2> ().topView;
@@ -40,7 +40,8 @@ namespace Exodrifter.UnityPython.Examples
 							newBoat.GetComponent<obstacle2> ().sea=seaLevel;
 
 						newBoat.GetComponent<AutonomousBoat> ().enabled = false;
-
+						if (t.GetComponent<mainmenucontroller> ().mode == 2)
+							obstacle2.manAuto = 0;
 					}
 				}
 				//Random.seed =2;
