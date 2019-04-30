@@ -8,12 +8,12 @@ The reason for this is that the libraries that are used to run the python code d
 
 Tested with Unity 2017.4.10.
 
-#To run the simulator in the editor -
+# To run the simulator in the editor -
 1. Open project in Unity
 2. Open the "mainmenu" scene, and hit "Play"
 
 
-#To build the project -
+# To build the project -
 1. Open project in Unity
 2. Go to File -> Build Settings -> Build
 3. Enter a name, and click save
@@ -43,9 +43,9 @@ Python code -
 
 To modify the python code, there are two scripts, **start.py** and **update.py** in the Assets folder of the project.
 
-**start.py : ** It is executed once when the simulation starts. All the required variables are initialised here. It has some helper functions
+**start.py :** It is executed once when the simulation starts. All the required variables are initialised here. It has some helper functions
 
-**update.py : ** It is executed at the rate same as the FPS (~ 30 times per second) of simulation. The functions declared in the start.py file is used here. A greedy approach for the allocation of tasks for the autonomous agents has been implemented here (where the closest autonomous boat is assigned the task of picking up the person).
+**update.py :** It is executed at the rate same as the FPS (~ 30 times per second) of simulation. The functions declared in the start.py file is used here. A greedy approach for the allocation of tasks for the autonomous agents has been implemented here (where the closest autonomous boat is assigned the task of picking up the person).
 
 
 For any queries, contact me at deepak14035@iiitd.ac.in
